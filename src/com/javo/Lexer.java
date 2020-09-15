@@ -10,7 +10,7 @@ public class Lexer {
     private int pos;
     private int position;
     private char chr;
-    private String s;
+    private final String s;
 
     Map<String, TokenType> keywords = new HashMap<>();
 
@@ -38,6 +38,7 @@ public class Lexer {
         this.keywords.put("hex", TokenType.Keyword_hex);
         this.keywords.put("binary", TokenType.Keyword_binary);
         this.keywords.put("while", TokenType.Keyword_while);
+        this.keywords.put("char", TokenType.Keyword_char);
         this.keywords.put("return", TokenType.Keyword_return);
     }
 
@@ -134,6 +135,10 @@ public class Lexer {
                 return new Token(TokenType.Error, text.toString(), line, pos);
             }
             return new Token(TokenType.Integer, text.toString(), line, pos);
+        }
+
+        if (text.toString().matches("^'.'?$")){
+            return new Token(TokenType.Char, text.toString(), line, pos);
         }
 
         if (this.keywords.containsKey(text.toString())) {
